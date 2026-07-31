@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGEM'S OPIMIZER PRO</title>
+    <style>
+        :root {
+            --purple-1: #667eea;
+            --purple-2: #764ba2;
+            --accent: #8b5cf6;
+            --surface: #ffffff;
+            --bg: #f8fafc;
+            --text: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+            --shadow-lg: 0 10px 25px rgba(102,126,234,.12);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            background: linear-gradient(135deg, var(--purple-1) 0%, var(--purple-2) 100%);
+            color: #fff;
+            text-align: center;
+            padding: 80px 24px 64px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,.12) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 20%, rgba(255,255,255,.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-icon { font-size: 56px; margin-bottom: 16px; }
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 800;
+            letter-spacing: -.02em;
+        }
+        .hero p {
+            font-size: clamp(15px, 2.5vw, 18px);
+            opacity: .88;
+            max-width: 520px;
+            margin: 12px auto 0;
+        }
+        .hero-badge {
+            display: inline-block;
+            margin-top: 20px;
+            background: rgba(255,255,255,.18);
+            backdrop-filter: blur(4px);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* ── Container ── */
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 56px 0; }
+        .section-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 36px;
+        }
+
+        /* ── Features ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            transition: transform .2s, box-shadow .2s;
+        }
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .feature-card .icon { font-size: 28px; margin-bottom: 10px; }
+        .feature-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+        .feature-card p { font-size: 13px; color: var(--text-muted); }
+
+        /* ── Platforms ── */
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+        }
+        .platform-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px 12px;
+            text-align: center;
+            transition: transform .2s, border-color .2s;
+        }
+        .platform-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+        .platform-card .pf-icon { font-size: 28px; margin-bottom: 6px; }
+        .platform-card .pf-name { font-size: 13px; font-weight: 600; }
+        .platform-card .pf-status {
+            font-size: 11px;
+            color: #059669;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* ── Providers ── */
+        .providers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+        }
+        .provider-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 14px;
+        }
+        .provider-card h4 { font-size: 14px; font-weight: 600; }
+        .provider-card .models {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        /* ── Dev Install ── */
+        .install-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        .install-step {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .install-step:last-child { margin-bottom: 0; }
+        .step-num {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple-1), var(--purple-2));
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step-body { flex: 1; font-size: 14px; }
+        .step-body strong { font-weight: 600; }
+        .step-body code {
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+        .cmd-box {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 12px;
+            margin: 6px 0;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .tip-box {
+            background: #f0f4ff;
+            border-left: 3px solid var(--purple-1);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            margin: 16px 0 0;
+        }
+
+        /* ── CTA ── */
+        .cta-section {
+            text-align: center;
+            padding: 40px 0 56px;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--purple-1), var(--purple-2));
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+            box-shadow: 0 4px 14px rgba(102,126,234,.3);
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,.4); }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .hero { padding: 56px 16px 44px; }
+            section { padding: 36px 0; }
+            .install-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+    <div class="hero-icon">✨</div>
+    <h1>MGEM'S OPIMIZER PRO</h1>
+    <p>One-click prompt optimization for every AI platform. Better prompts, better answers.</p>
+    <span class="hero-badge">v1.0 &middot; Chrome Extension</span>
+</header>
+
+<div class="container">
+
+<!-- ═══ FEATURES ═══ -->
+<section>
+    <h2 class="section-title">Why MGEM'S OPIMIZER PRO?</h2>
+    <p class="section-sub">Stop wrestling with prompts — let AI optimize them for you</p>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="icon">🚀</div>
+            <h3>One-Click Optimize</h3>
+            <p>Click the ✨ Optimize button or press Ctrl+Shift+O. Your prompt is rewritten instantly using advanced prompt engineering.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🎯</div>
+            <h3>6 Optimization Styles</h3>
+            <p>SpecKit (3-section), Default, Detailed, Concise, Examples, Professional — pick what fits your use case.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🔀</div>
+            <h3>A/B &amp; 4-Panel Preview</h3>
+            <p>Compare two or four optimized variants side-by-side before picking the best one.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🧠</div>
+            <h3>Multiple AI Models</h3>
+            <p>Choose from DeepSeek, OpenAI GPT-4o, Gemini 2.0, NVIDIA Nemotron, or Kimi Moonshot. All in one extension.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">📁</div>
+            <h3>Auto-Save .txt</h3>
+            <p>Every optimization is automatically saved to your Downloads folder as a timestamped text file. Never lose a good prompt.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🔒</div>
+            <h3>Privacy First</h3>
+            <p>API keys are stored locally in Chrome. API calls go direct from your browser — no middleman servers.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ SUPPORTED PLATFORMS ═══ -->
+<section>
+    <h2 class="section-title">Supported Platforms</h2>
+    <p class="section-sub">Works on every major AI chat interface</p>
+    <div class="platforms-grid">
+        <div class="platform-card"><div class="pf-icon">🤖</div><div class="pf-name">DeepSeek</div><div class="pf-status">● Active</div></div>
+        <div class="platform-card"><div class="pf-icon">🚀</div><div class="pf-name">Grok (xAI)</div><div class="pf-status">● Active</div></div>
+        <div class="platform-card"><div class="pf-icon">🧠</div><div class="pf-name">Claude</div><div class="pf-status">● Active</div></div>
+        <div class="platform-card"><div class="pf-icon">🔮</div><div class="pf-name">Gemini</div><div class="pf-status">● Active</div></div>
+        <div class="platform-card"><div class="pf-icon">💬</div><div class="pf-name">ChatGPT</div><div class="pf-status">● Active</div></div>
+        <div class="platform-card"><div class="pf-icon">📧</div><div class="pf-name">Gmail</div><div class="pf-status">● Active</div></div>
+        <div class="platform-card"><div class="pf-icon">📄</div><div class="pf-name">Google Docs</div><div class="pf-status">● Active</div></div>
+    </div>
+</section>
+
+<!-- ═══ AI PROVIDERS ═══ -->
+<section>
+    <h2 class="section-title">AI Model Providers</h2>
+    <p class="section-sub">Bring your own API key — use any supported model</p>
+    <div class="providers-grid">
+        <div class="provider-card">
+            <h4>DeepSeek</h4>
+            <div class="models">DeepSeek Chat V3 · DeepSeek Reasoner R1</div>
+        </div>
+        <div class="provider-card">
+            <h4>OpenAI</h4>
+            <div class="models">GPT-4o · GPT-4o Mini · GPT-4 Turbo · O1 · O1 Mini</div>
+        </div>
+        <div class="provider-card">
+            <h4>Gemini</h4>
+            <div class="models">Gemini 2.0 Flash · 2.0 Pro · 1.5 Pro · 1.5 Flash</div>
+        </div>
+        <div class="provider-card">
+            <h4>NVIDIA</h4>
+            <div class="models">Llama 3.1 Nemotron 70B · Nemotron Ultra 253B · Mistral NeMo 12B</div>
+        </div>
+        <div class="provider-card">
+            <h4>Kimi (Moonshot)</h4>
+            <div class="models">Kimi v1 8K · 32K · 128K</div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ DEV MODE INSTALL ═══ -->
+<section>
+    <h2 class="section-title">Install in Developer Mode</h2>
+    <p class="section-sub">Load the extension locally from source</p>
+    <div class="install-card">
+        <div class="install-step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+                <strong>Open Chrome Extensions</strong><br>
+                Type <code>chrome://extensions</code> in the address bar and press Enter.
+            </div>
+        </div>
+        <div class="install-step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+                <strong>Enable Developer Mode</strong><br>
+                Toggle the <strong>Developer mode</strong> switch in the top-right corner.
+            </div>
+        </div>
+        <div class="install-step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+                <strong>Load Unpacked</strong><br>
+                Click <strong>"Load unpacked"</strong> and select the extension folder:
+                <div class="cmd-box">E:\Ai build\PROMP mASTER</div>
+            </div>
+        </div>
+        <div class="install-step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+                <strong>Verify Installation</strong><br>
+                The extension icon (✨) appears in the toolbar. Click it to open the settings popup.
+            </div>
+        </div>
+        <div class="install-step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+                <strong>Configure API Key</strong><br>
+                Select your AI model provider from the dropdown, enter your API key, and click <strong>Save Settings</strong>.
+            </div>
+        </div>
+        <div class="tip-box">
+            💡 <strong>Need detailed instructions?</strong> See the full guide in <code>INSTALL_DEV_MODE.md</code> included with the extension files.
+        </div>
+    </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+    <button class="cta-btn" onclick="window.close()">✨ Start Optimizing</button>
+</section>
+
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+    <p>MGEM'S OPIMIZER PRO &mdash; Built for the AI community</p>
+</footer>
+
+</body>
+</html>

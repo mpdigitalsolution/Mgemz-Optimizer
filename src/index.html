@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Album Organizer</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/components.css">
+    <link rel="stylesheet" href="./styles/responsive.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="app-header" role="banner">
+        <div class="header-content">
+            <h1 class="app-title">
+                <span class="app-icon">📸</span>
+                Photo Album Organizer
+            </h1>
+            <nav class="app-nav" role="navigation" aria-label="Main navigation">
+                <button id="createAlbumBtn" class="btn btn-primary" aria-label="Create new album">
+                    <span class="btn-icon">+</span>
+                    New Album
+                </button>
+                <button id="settingsBtn" class="btn btn-secondary" aria-label="Settings">
+                    <span class="btn-icon">⚙️</span>
+                    Settings
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="app-main" role="main">
+        <!-- Album Grid Container -->
+        <section class="albums-section" id="albumsSection" aria-label="Photo albums">
+            <div class="section-header">
+                <h2 class="section-title">My Albums</h2>
+                <div class="section-controls">
+                    <div class="search-box">
+                        <input type="search" id="albumSearch" placeholder="Search albums..." aria-label="Search albums">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <div class="view-options">
+                        <button class="view-btn active" data-view="grid" aria-label="Grid view">⊞</button>
+                        <button class="view-btn" data-view="list" aria-label="List view">☰</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="albums-grid" id="albumsGrid" role="grid" aria-label="Albums grid">
+                <!-- Album cards will be dynamically inserted here -->
+                <div class="loading-state" id="loadingState">
+                    <div class="loading-spinner"></div>
+                    <p>Loading albums...</p>
+                </div>
+                
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">📷</div>
+                    <h3>No albums yet</h3>
+                    <p>Create your first album to start organizing your photos</p>
+                    <button class="btn btn-primary" id="createFirstAlbumBtn">Create Album</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Grid Container (Hidden by default) -->
+        <section class="photos-section" id="photosSection" style="display: none;" aria-label="Photos in album">
+            <div class="section-header">
+                <div class="back-nav">
+                    <button id="backToAlbumsBtn" class="btn btn-text" aria-label="Back to albums">
+                        <span class="btn-icon">←</span>
+                        Back to Albums
+                    </button>
+                    <h2 class="section-title" id="albumTitle">Album Name</h2>
+                </div>
+                <div class="section-controls">
+                    <button id="addPhotosBtn" class="btn btn-primary" aria-label="Add photos to album">
+                        <span class="btn-icon">+</span>
+                        Add Photos
+                    </button>
+                    <div class="album-actions">
+                        <button id="albumSettingsBtn" class="btn btn-secondary" aria-label="Album settings">⚙️</button>
+                        <button id="deleteAlbumBtn" class="btn btn-danger" aria-label="Delete album">🗑️</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="photos-grid" id="photosGrid" role="grid" aria-label="Photos grid">
+                <!-- Photo tiles will be dynamically inserted here -->
+                <div class="loading-state" id="photosLoadingState">
+                    <div class="loading-spinner"></div>
+                    <p>Loading photos...</p>
+                </div>
+                
+                <div class="empty-state" id="photosEmptyState" style="display: none;">
+                    <div class="empty-icon">🖼️</div>
+                    <h3>No photos in this album</h3>
+                    <p>Add some photos to get started</p>
+                    <button class="btn btn-primary" id="addFirstPhotosBtn">Add Photos</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modalOverlay" style="display: none;" aria-hidden="true">
+        <!-- Create/Edit Album Modal -->
+        <div class="modal" id="albumModal" role="dialog" aria-labelledby="albumModalTitle" style="display: none;">
+            <div class="modal-header">
+                <h3 id="albumModalTitle">Create New Album</h3>
+                <button class="modal-close" id="closeAlbumModal" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="albumForm">
+                    <div class="form-group">
+                        <label for="albumNameInput">Album Name</label>
+                        <input type="text" id="albumNameInput" name="name" required maxlength="100" placeholder="Enter album name">
+                        <span class="error-message" id="albumNameError"></span>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelAlbumBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveAlbumBtn">Create Album</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add Photos Modal -->
+        <div class="modal" id="addPhotosModal" role="dialog" aria-labelledby="addPhotosModalTitle" style="display: none;">
+            <div class="modal-header">
+                <h3 id="addPhotosModalTitle">Add Photos to Album</h3>
+                <button class="modal-close" id="closeAddPhotosModal" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="file-upload-area" id="fileUploadArea">
+                    <div class="upload-prompt">
+                        <div class="upload-icon">📁</div>
+                        <p>Drag and drop photos here or click to browse</p>
+                        <input type="file" id="photoFileInput" accept="image/*" multiple style="display: none;">
+                        <button type="button" class="btn btn-primary" id="browseFilesBtn">Browse Files</button>
+                    </div>
+                </div>
+                <div class="uploaded-files" id="uploadedFiles" style="display: none;">
+                    <h4>Selected Files</h4>
+                    <div class="file-list" id="fileList"></div>
+                    <div class="upload-progress" id="uploadProgress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">0%</span>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelAddPhotosBtn">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="uploadPhotosBtn" disabled>Upload Photos</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Viewer Modal -->
+        <div class="modal photo-viewer-modal" id="photoViewerModal" role="dialog" aria-labelledby="photoViewerModalTitle" style="display: none;">
+            <div class="modal-header">
+                <h3 id="photoViewerModalTitle">Photo Viewer</h3>
+                <button class="modal-close" id="closePhotoViewerModal" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="photo-viewer-container">
+                    <img id="viewerImage" src="" alt="Full size photo">
+                    <div class="photo-viewer-controls">
+                        <button id="prevPhotoBtn" class="viewer-btn" aria-label="Previous photo">‹</button>
+                        <button id="nextPhotoBtn" class="viewer-btn" aria-label="Next photo">›</button>
+                    </div>
+                </div>
+                <div class="photo-metadata" id="photoMetadata">
+                    <!-- Photo metadata will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;" aria-hidden="true">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p id="loadingText">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="./main.js"></script>
+</body>
+</html>

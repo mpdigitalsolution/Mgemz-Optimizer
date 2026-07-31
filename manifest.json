@@ -1,0 +1,83 @@
+{
+  "manifest_version": 3,
+  "name": "MGEM'S OPIMIZER PRO",
+  "version": "1.0.0",
+  "description": "MGEM'S OPIMIZER PRO helps you automatically optimize prompts in DeepSeek, Grok, and other AI chats for better responses with one click.",
+  
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "downloads"
+  ],
+  
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*",
+    "https://chat.deepseek.com/*",
+    "https://grok.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*",
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://x.com/i/grok*",
+    "https://mail.google.com/*",
+    "https://docs.google.com/*",
+    "https://api.deepseek.com/*",
+    "https://api.openai.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.nvidia.com/*",
+    "https://api.moonshot.cn/*"
+  ],
+  
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chat.deepseek.com/*",
+        "https://grok.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://x.com/i/grok*",
+        "https://mail.google.com/*",
+        "https://docs.google.com/*"
+      ],
+      "js": ["editor-adapter.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "MGEM'S OPIMIZER PRO",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "commands": {
+    "optimize-prompt": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+O",
+        "mac": "Command+Shift+O"
+      },
+      "description": "Optimize current prompt"
+    }
+  }
+}
